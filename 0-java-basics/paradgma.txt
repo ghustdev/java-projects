@@ -1,0 +1,133 @@
+Java
+
+PARADIGMA: multiparadigma, mas fortemente orientado a objetos.
+
+Suporta orientação a objetos (quase tudo gira em torno de classes e objetos).
+
+Suporta também paradigma procedural (métodos estáticos, por exemplo o main).
+
+A partir do Java 8, ganhou recursos funcionais (expressões lambda, streams).
+
+Genérico: possui generics (parâmetros de tipo), embora de forma menos flexível que os templates do C++.
+
+TIPAÇÃO: forte e estática.
+
+Forte → não permite operações implícitas inseguras entre tipos.
+
+Estática → os tipos são verificados em tempo de compilação e não podem mudar em tempo de execução.
+
+Possui generics com type erasure, ou seja, a informação genérica é perdida em tempo de execução.
+
+GERENCIAMENTO DE MEMÓRIA: automático com Garbage Collector.
+
+Diferente do C++, o programador não precisa desalocar memória manualmente (delete, free).
+
+O Garbage Collector detecta objetos que não estão mais sendo usados e libera a memória.
+
+Porém, o programador ainda pode causar vazamentos lógicos de memória se mantiver referências desnecessárias.
+
+--------------------------------------
+
+🔹 1. Paradigma multiparadigma
+a) Orientado a objetos
+class Animal {
+    void fazerSom() {
+        System.out.println("Algum som de animal...");
+    }
+}
+
+class Cachorro extends Animal {
+    @Override
+    void fazerSom() {
+        System.out.println("Au au!");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal a = new Cachorro(); // polimorfismo
+        a.fazerSom();              // saída: Au au!
+    }
+}
+
+b) Procedural (uso de métodos estáticos)
+public class Main {
+    public static void main(String[] args) {
+        int resultado = soma(3, 5); 
+        System.out.println(resultado); // saída: 8
+    }
+
+    static int soma(int a, int b) {
+        return a + b;
+    }
+}
+
+c) Funcional (lambda + streams, Java 8+)
+import java.util.Arrays;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> nums = Arrays.asList(1, 2, 3, 4, 5);
+
+        // soma dos pares usando lambda + stream
+        int soma = nums.stream()
+                       .filter(n -> n % 2 == 0)
+                       .mapToInt(n -> n)
+                       .sum();
+
+        System.out.println(soma); // saída: 6 (2 + 4)
+    }
+}
+
+d) Genérico (Generics)
+class Caixa<T> {  // classe genérica
+    private T valor;
+
+    public void guardar(T v) { valor = v; }
+    public T abrir() { return valor; }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Caixa<String> c1 = new Caixa<>();
+        c1.guardar("Olá");
+        System.out.println(c1.abrir()); // saída: Olá
+
+        Caixa<Integer> c2 = new Caixa<>();
+        c2.guardar(123);
+        System.out.println(c2.abrir()); // saída: 123
+    }
+}
+
+🔹 2. Tipagem forte e estática
+public class Main {
+    public static void main(String[] args) {
+        int x = 10;
+        // x = "texto"; // ERRO de compilação: tipos incompatíveis
+
+        double y = 2.5;
+        int z = (int) y; // conversão explícita
+        System.out.println(z); // saída: 2
+    }
+}
+
+
+👉 O compilador já impede usos incorretos, diferente de linguagens de tipagem fraca.
+
+🔹 3. Gerenciamento de memória automático
+public class Main {
+    public static void main(String[] args) {
+        String texto = new String("Olá mundo");
+
+        // Depois que "texto" não for mais usado, 
+        // o Garbage Collector pode liberar essa memória automaticamente.
+        texto = null; // objeto fica "sem dono"
+        
+        // Forçar o GC (não é garantido que rode agora)
+        System.gc();
+    }
+}
+
+
+👉 Diferente do C++, não existe delete ou free. O Garbage Collector cuida disso.
